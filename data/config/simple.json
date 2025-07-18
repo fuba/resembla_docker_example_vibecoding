@@ -1,0 +1,25 @@
+{
+    "common": {
+        "corpus_path": "/data/corpus/simple.tsv",
+        "id_col": 1,
+        "text_col": 2,
+        "features_col": 0,
+        "verbose": true
+    },
+    "simstring": {
+        "ngram_unit": 2,
+        "measure": "cosine",
+        "threshold": 0.01
+    },
+    "resembla": {
+        "measure": "edit_distance",
+        "max_reranking_num": 100,
+        "max_response": 20,
+        "threshold": 0.5
+    },
+    "edit_distance": {
+        "simstring_ngram_unit": 1,
+        "simstring_threshold": 0.1,
+        "ensemble_weight": 1.0
+    }
+}

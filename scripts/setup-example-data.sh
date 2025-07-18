@@ -13,8 +13,42 @@ mkdir -p /data/config /data/corpus /data/index
 # Copy example configurations and corpus
 if [ -d "/opt/resembla/example" ]; then
     echo "Copying example configurations..."
-    cp -r /opt/resembla/example/conf/* /data/config/
-    cp -r /opt/resembla/example/corpus/* /data/corpus/
+    
+    # Check if files exist before copying
+    if [ -f "/opt/resembla/example/conf/name.json" ]; then
+        cp -r /opt/resembla/example/conf/* /data/config/
+        echo "Configuration files copied successfully"
+    else
+        echo "Warning: Configuration files not found, creating from backup"
+        # Configuration files were deleted, restore from git
+        cd /opt/resembla
+        git checkout HEAD -- example/conf/ example/corpus/ || echo "Could not restore from git"
+        if [ -f "/opt/resembla/example/conf/name.json" ]; then
+            cp -r /opt/resembla/example/conf/* /data/config/
+            echo "Configuration files restored and copied"
+        else
+            echo "Error: Could not restore configuration files"
+            exit 1
+        fi
+    fi
+    
+    # Copy corpus files
+    if [ -f "/opt/resembla/example/corpus/name.tsv" ]; then
+        cp -r /opt/resembla/example/corpus/* /data/corpus/
+        echo "Corpus files copied successfully"
+    else
+        echo "Warning: Corpus files not found, creating from backup"
+        # Corpus files were deleted, restore from git
+        cd /opt/resembla
+        git checkout HEAD -- example/corpus/ || echo "Could not restore corpus files"
+        if [ -f "/opt/resembla/example/corpus/name.tsv" ]; then
+            cp -r /opt/resembla/example/corpus/* /data/corpus/
+            echo "Corpus files restored and copied"
+        else
+            echo "Error: Could not restore corpus files"
+            exit 1
+        fi
+    fi
     
     # Fix paths in configuration files
     echo "Fixing configuration file paths..."

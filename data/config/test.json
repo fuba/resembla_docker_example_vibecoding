@@ -1,0 +1,13 @@
+{
+  "corpus_path": "/data/corpus/test.tsv",
+  "id_col": 0,
+  "text_col": 1,
+  "features_col": 0,
+  "simstring_measure": "cosine",
+  "simstring_threshold": 0.2,
+  "measure": "edit_distance",
+  "max_reranking_num": 100,
+  "max_response": 10,
+  "threshold": 0.8,
+  "verbose": 1
+}
