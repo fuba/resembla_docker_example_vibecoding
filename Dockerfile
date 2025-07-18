@@ -30,12 +30,16 @@ RUN git clone https://github.com/tuem/resembla.git /opt/resembla
 # Copy ICU namespace fix patch
 COPY patches/icu-namespace-fix.patch /tmp/
 
-# Apply ICU namespace fix
-RUN cd /opt/resembla && \
-    patch -p1 < /tmp/icu-namespace-fix.patch || \
-    (cd /opt/resembla/src && \
-     find . -name "*.hpp" -o -name "*.cpp" | \
-     xargs -I {} sed -i '1s/^/#include <unicode\/unistr.h>\nusing namespace icu;\n/' {} || true)
+# Apply ICU namespace fix and add missing headers
+RUN cd /opt/resembla/src && \
+    sed -i '/#include "symbol_normalizer.hpp"/a using namespace icu;' string_normalizer.hpp && \
+    sed -i '/#include "symbol_normalizer.hpp"/a using namespace icu;' string_normalizer.cpp && \
+    sed -i '/#include "string_util.hpp"/a using namespace icu;' symbol_normalizer.hpp && \
+    sed -i '/#include <unicode\/normlzr.h>/a using namespace icu;' symbol_normalizer.cpp && \
+    sed -i '/#include <fstream>/a #include <unicode/unistr.h>\nusing namespace icu;' string_util.hpp && \
+    sed -i '/#include <unicode\/unistr.h>/a using namespace icu;' string_util.cpp && \
+    sed -i '1i#include <cstddef>' measure/romaji_weight.hpp && \
+    sed -i '1i#include <cstddef>' measure/romaji_weight.cpp
 
 # Build libresembla
 RUN cd /opt/resembla/src && \
