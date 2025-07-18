@@ -1,0 +1,29 @@
+# Data directory
+data/index/*
+!data/index/.gitkeep
+
+# Build artifacts
+*.o
+*.d
+*.so
+*.a
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Docker
+.docker/
+
+# Patch files (used during build)
+*.patch

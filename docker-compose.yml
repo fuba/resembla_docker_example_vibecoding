@@ -1,0 +1,29 @@
+services:
+  resembla:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: resembla:latest
+    container_name: resembla
+    volumes:
+      - ./data:/data
+      - ./resembla_src/example/conf:/opt/resembla/example/conf:ro
+      - ./resembla_src/example/corpus:/opt/resembla/example/corpus:ro
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+    stdin_open: true
+    tty: true
+    command: --help
+
+  # Service for creating index
+  resembla-index:
+    extends: resembla
+    container_name: resembla-index
+    command: index -c /data/config/name.json
+
+  # Service for CLI search
+  resembla-cli:
+    extends: resembla
+    container_name: resembla-cli
+    command: cli -c /data/config/name.json
