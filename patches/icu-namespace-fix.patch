@@ -1,0 +1,66 @@
+--- a/src/string_normalizer.hpp
++++ b/src/string_normalizer.hpp
+@@ -28,6 +28,8 @@
+ 
+ #include "symbol_normalizer.hpp"
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ class StringNormalizer final: public SymbolNormalizer
+--- a/src/string_normalizer.cpp
++++ b/src/string_normalizer.cpp
+@@ -29,6 +29,8 @@
+ #include "string_util.hpp"
+ #include "symbol_normalizer.hpp"
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ StringNormalizer::StringNormalizer(const std::string& nrm_dir, const std::string& nrm_name,
+--- a/src/symbol_normalizer.hpp
++++ b/src/symbol_normalizer.hpp
+@@ -29,6 +29,8 @@
+ #include "resembla_util.hpp"
+ #include "string_util.hpp"
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ struct SymbolNormalizer
+--- a/src/symbol_normalizer.cpp
++++ b/src/symbol_normalizer.cpp
+@@ -23,6 +23,8 @@
+ 
+ #include <unicode/normlzr.h>
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ SymbolNormalizer::SymbolNormalizer(const std::string& nrm_dir, const std::string& nrm_name,
+--- a/src/string_util.hpp
++++ b/src/string_util.hpp
+@@ -26,6 +26,8 @@
+ #include <sstream>
+ #include <fstream>
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ template<typename T>
+--- a/src/string_util.cpp
++++ b/src/string_util.cpp
+@@ -23,6 +23,8 @@
+ 
+ #include <unicode/unistr.h>
+ 
++using namespace icu;
++
+ namespace resembla {
+ 
+ #ifdef _WIN32

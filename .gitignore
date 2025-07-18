@@ -25,5 +25,5 @@ Thumbs.db
 # Docker
 .docker/
 
-# Patch files (used during build)
-*.patch
+# Temporary files from build
+*.tmp

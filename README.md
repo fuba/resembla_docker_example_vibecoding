@@ -6,6 +6,8 @@ Resembla（日本語類似文検索ライブラリ）をDockerコンテナで実
 
 このDockerイメージは、[Resembla](https://github.com/tuem/resembla)をDebian bookworm（最新版）上でビルドし、`resembla_index`と`resembla_cli`を簡単に実行できるようにしたものです。
 
+**注意**: このプロジェクトはResemblaの公式リポジトリからソースコードを取得し、ICU名前空間の問題を修正するパッチを適用します。元のソースコードは含まれていません。
+
 ## 機能
 
 - 日本語の類似文検索
@@ -54,11 +56,14 @@ docker run resembla:latest --help
 ├── Dockerfile              # Dockerイメージ定義
 ├── docker-compose.yml      # Docker Compose設定
 ├── entrypoint.sh          # エントリーポイントスクリプト
-├── data/                  # ユーザーデータディレクトリ
-│   ├── config/           # 設定ファイル
-│   ├── corpus/           # コーパスファイル
-│   └── index/            # インデックスファイル
-└── resembla_src/          # resemblaソースコード
+├── patches/               # ICU名前空間修正パッチ
+│   └── icu-namespace-fix.patch
+├── scripts/               # セットアップスクリプト
+│   └── setup-example-data.sh
+└── data/                  # ユーザーデータディレクトリ
+    ├── config/           # 設定ファイル
+    ├── corpus/           # コーパスファイル
+    └── index/            # インデックスファイル
 ```
 
 ## サンプル実行例
@@ -120,6 +125,8 @@ docker compose run --rm resembla cli -c /data/config/apple.json
 - 必要なライブラリ: MeCab, LIBSVM, ICU
 - ビルドツール: g++, make
 - 文字エンコーディング: UTF-8
+- ソースコード: [Resembla公式リポジトリ](https://github.com/tuem/resembla)から自動取得
+- パッチ適用: ICU名前空間の問題を修正
 
 ## ライセンス
 

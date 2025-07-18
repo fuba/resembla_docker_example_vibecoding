@@ -22,15 +22,20 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create work directory
-WORKDIR /opt/resembla
+WORKDIR /opt
 
-# Copy resembla source
-COPY resembla_src/ /opt/resembla/
+# Clone resembla repository
+RUN git clone https://github.com/tuem/resembla.git /opt/resembla
 
-# Fix ICU namespace issues
-RUN cd /opt/resembla/src && \
-    find . -name "*.hpp" -o -name "*.cpp" | \
-    xargs -I {} sed -i '1s/^/#include <unicode\/unistr.h>\nusing namespace icu;\n/' {} || true
+# Copy ICU namespace fix patch
+COPY patches/icu-namespace-fix.patch /tmp/
+
+# Apply ICU namespace fix
+RUN cd /opt/resembla && \
+    patch -p1 < /tmp/icu-namespace-fix.patch || \
+    (cd /opt/resembla/src && \
+     find . -name "*.hpp" -o -name "*.cpp" | \
+     xargs -I {} sed -i '1s/^/#include <unicode\/unistr.h>\nusing namespace icu;\n/' {} || true)
 
 # Build libresembla
 RUN cd /opt/resembla/src && \
@@ -53,12 +58,9 @@ RUN cd /opt/resembla/misc/mecab_dic/unidic && \
 RUN cd /opt/resembla/misc/mecab_dic/mecab-unidic-neologd && \
     bash ./install-mecab-unidic-neologd.sh -y || true
 
-# Create directory for user data
-RUN mkdir -p /data/corpus /data/config /data/index
-
-# Copy example configurations
-RUN cp -r /opt/resembla/example/conf/* /data/config/ && \
-    cp -r /opt/resembla/example/corpus/* /data/corpus/
+# Copy and run example data setup script
+COPY scripts/setup-example-data.sh /tmp/
+RUN chmod +x /tmp/setup-example-data.sh && /tmp/setup-example-data.sh
 
 # Create entrypoint script
 COPY entrypoint.sh /usr/local/bin/
