@@ -130,9 +130,26 @@ docker compose run --rm resembla cli -c /data/config/apple.json
 
 ## ライセンス
 
-このプロジェクトはCC0 1.0 Universal (CC0 1.0) Public Domain Dedicationでライセンスされています。
+このプロジェクトは複数のライセンスが適用されています：
 
-注意: 元のResemblaライブラリはApache License 2.0でライセンスされています。
+### 独自コード（CC0 1.0）
+以下のファイルはCC0 1.0 Universal Public Domain Dedicationでライセンスされています：
+- Dockerfile
+- docker-compose.yml
+- entrypoint.sh
+- scripts/setup-example-data.sh
+- 設定ファイル（data/config/）
+- このREADME.md
+
+### パッチファイル（MIT License）
+`patches/`ディレクトリのパッチファイルはMIT Licenseでライセンスされています。
+
+### Resemblaライブラリ（Apache License 2.0）
+元のResemblaライブラリ（Copyright 2017 Takashi Uemura）はApache License 2.0でライセンスされています。
+- 元のソースコード: https://github.com/tuem/resembla
+- パッチ適用後のバイナリもApache License 2.0の制約を受けます
+
+**重要**: 本プロジェクトをビルドして生成されるバイナリは、Apache License 2.0の制約を受けます。
 
 ## トラブルシューティング
 
