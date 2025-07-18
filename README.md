@@ -130,7 +130,9 @@ docker compose run --rm resembla cli -c /data/config/apple.json
 
 ## ライセンス
 
-ResemblaはApache License 2.0でライセンスされています。
+このプロジェクトはCC0 1.0 Universal (CC0 1.0) Public Domain Dedicationでライセンスされています。
+
+注意: 元のResemblaライブラリはApache License 2.0でライセンスされています。
 
 ## トラブルシューティング
 
